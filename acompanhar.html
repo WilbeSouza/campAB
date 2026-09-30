@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Acompanhar Torneio</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="painel">
+
+        <header class="cabecalho">
+
+            <div>
+
+                <h1>
+                    Acompanhar Torneio
+                </h1>
+
+                <p id="nomeTorneio">
+                    Torneio
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================= -->
+        <!-- LUTAS -->
+        <!-- ========================= -->
+
+        <section class="card">
+
+            <h2>
+                Lutas
+            </h2>
+
+
+            <div
+                id="lutasAcompanhar"
+                class="lista-lutas"
+            >
+
+                <p class="vazio">
+                    Nenhuma luta cadastrada.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function carregarTorneio() {
+
+            const dados =
+                localStorage.getItem(
+                    "torneio"
+                );
+
+
+            if (!dados) {
+                return null;
+            }
+
+
+            return JSON.parse(
+                dados
+            );
+
+        }
+
+
+        function atualizarAcompanhamento() {
+
+            const torneio =
+                carregarTorneio();
+
+
+            const container =
+                document.getElementById(
+                    "lutasAcompanhar"
+                );
+
+
+            const nomeTorneio =
+                document.getElementById(
+                    "nomeTorneio"
+                );
+
+
+            if (
+                !torneio ||
+                !container
+            ) {
+
+                return;
+
+            }
+
+
+            if (nomeTorneio) {
+
+                nomeTorneio.innerText =
+                    torneio.nomeTorneio ||
+                    "Torneio";
+
+            }
+
+
+            if (
+                !Array.isArray(
+                    torneio.lutas
+                ) ||
+                torneio.lutas.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <p class="vazio">
+                        Nenhuma luta cadastrada.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                torneio.lutas
+                    .map(
+                        (luta, index) => {
+
+                            const vencedor =
+                                Number(
+                                    luta.vencedor
+                                );
+
+
+                            const perdedor =
+                                Number(
+                                    luta.perdedor
+                                );
+
+
+                            let classeA =
+                                "";
+
+                            let classeB =
+                                "";
+
+
+                            if (
+                                vencedor ===
+                                Number(
+                                    luta.lutadorA.id
+                                )
+                            ) {
+
+                                classeA =
+                                    "vencedor";
+
+                                classeB =
+                                    "perdedor";
+
+                            }
+
+
+                            if (
+                                vencedor ===
+                                Number(
+                                    luta.lutadorB.id
+                                )
+                            ) {
+
+                                classeA =
+                                    "perdedor";
+
+                                classeB =
+                                    "vencedor";
+
+                            }
+
+
+                            return `
+
+                                <div class="luta-card">
+
+                                    <div class="numero-luta">
+                                        Luta ${index + 1}
+                                    </div>
+
+
+                                    <div class="lutadores">
+
+                                        <strong
+                                            class="${classeA}"
+                                        >
+                                            ${luta.lutadorA.nome}
+                                            —
+                                            ${luta.lutadorA.grupo}
+                                        </strong>
+
+
+                                        <span>
+                                            VS
+                                        </span>
+
+
+                                        <strong
+                                            class="${classeB}"
+                                        >
+                                            ${luta.lutadorB.nome}
+                                            —
+                                            ${luta.lutadorB.grupo}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <span class="status-luta">
+                                        ${luta.status}
+                                    </span>
+
+                                </div>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+
+        atualizarAcompanhamento();
+
+
+        /*
+            Atualiza automaticamente a página
+            caso o resultado seja alterado em
+            outra página do navegador.
+        */
+
+        setInterval(
+            atualizarAcompanhamento,
+            1000
+        );
+
+    </script>
+
+</body>
+
+</html>

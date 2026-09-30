@@ -1,0 +1,304 @@
+</main>
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar Torneio</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <main class="painel">
+
+        <!-- ========================= -->
+        <!-- CABEÇALHO -->
+        <!-- ========================= -->
+
+        <header class="cabecalho">
+
+            <div>
+
+                <h1>
+                    Gerenciar Torneio
+                </h1>
+
+                <p id="nomeTorneioGerenciar">
+                    Torneio
+                </p>
+
+            </div>
+
+        </header>
+        <!-- ========================= -->
+        <!-- LISTA DE LUTAS -->
+        <!-- ========================= -->
+
+        <section class="card">
+
+            <h2>Lutas Cadastradas</h2>
+
+            <div id="lutas" class="lista-lutas" data-gerenciar="true">
+
+                <p class="vazio">
+                    Nenhuma luta cadastrada.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- APOSTAS -->
+        <!-- ========================= -->
+
+        <section class="card">
+
+            <h2>Apostas</h2>
+
+            <p class="descricao">
+                Cada aposta é cadastrada individualmente.
+                O valor pode ser diferente para cada apostador.
+            </p>
+
+
+            <div class="aposta-form">
+
+                <div class="campo">
+
+                    <label for="apostador">
+                        Nome do Apostador
+                    </label>
+
+                    <input id="apostador" type="text" placeholder="Nome">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="valorAposta">
+                        Valor da Aposta
+                    </label>
+
+                    <input id="valorAposta" type="number" min="0" step="0.01" placeholder="R$ 0,00">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="tipoAposta">
+                        Tipo de Aposta
+                    </label>
+
+                    <select id="tipoAposta">
+
+                        <option value="grupo">
+                            Grupo vencedor
+                        </option>
+
+                        <option value="participante">
+                            Participante vencedor
+                        </option>
+
+                        <option value="luta">
+                            Luta individual
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="campo" id="campoEscolha">
+
+                    <label for="escolhaAposta">
+                        Escolha
+                    </label>
+
+                    <select id="escolhaAposta"></select>
+
+                </div>
+                
+                <div class="campo">
+
+                    <label for="percentualVencedor">
+                        % para o vencedor
+                    </label>
+
+                    <input id="percentualVencedor" type="number" min="0" max="100" step="0.01" value="95">
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        % para o perdedor
+                    </label>
+
+                    <input type="text" value="5%" disabled>
+
+                </div>
+
+                <button class="btn-principal" onclick="adicionarAposta()">
+                    Adicionar Aposta
+                </button>
+
+            </div>
+
+            <div class="apostas-lista">
+
+                <h3>Apostas cadastradas</h3>
+
+                <div id="apostas"></div>
+
+            </div>
+
+        </section>
+        <!-- ========================= -->
+        <!-- PRODUTOS E VENDAS -->
+        <!-- ========================= -->
+
+        <section class="card">
+
+            <h2>Produtos e Vendas</h2>
+
+            <p class="descricao">
+                Cadastre os produtos vendidos durante o torneio,
+                controle o estoque e registre as vendas.
+            </p>
+
+            <!-- ========================= -->
+            <!-- CADASTRAR PRODUTO -->
+            <!-- ========================= -->
+
+            <div class="aposta-form">
+
+                <div class="campo">
+
+                    <label for="nomeProduto">
+                        Nome do Produto
+                    </label>
+
+                    <input id="nomeProduto" type="text" placeholder="Ex.: Cerveja">
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="quantidadeProduto">
+                        Quantidade disponível
+                    </label>
+
+                    <input id="quantidadeProduto" type="number" min="0" step="1" placeholder="Ex.: 100">
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="valorProduto">
+                        Valor da unidade
+                    </label>
+
+                    <input id="valorProduto" type="number" min="0" step="0.01" placeholder="Ex.: 25">
+
+                </div>
+
+                <button class="btn-principal" onclick="adicionarProduto()">
+                    Cadastrar Produto
+                </button>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- PRODUTOS CADASTRADOS -->
+            <!-- ========================= -->
+
+            <div class="apostas-lista">
+
+                <h3>
+                    Produtos cadastrados
+                </h3>
+
+                <div id="produtos">
+
+                    <p class="vazio">
+                        Nenhum produto cadastrado.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+        <!--khiytjhyi666666666666666666666ojg
+        <!-- FINANCEIRO -->
+        <!-- ========================= -->
+
+        <section class="card resumo-financeiro">
+
+            <h2>Resumo</h2>
+
+            <div class="resumo-grid">
+
+                <div>
+                    <span>Total de inscrições</span>
+                    <strong id="totalInscricoes">
+                        0,00 Septims
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Total de apostas</span>
+                    <strong id="totalApostas">
+                        0,00 Septims
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Total geral</span>
+                    <strong id="totalGeral">
+                        0,00 Septims
+                    </strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- FINALIZAR TORNEIO -->
+        <!-- ========================= -->
+
+        <section class="concluir-area">
+
+            <button class="btn-concluir" onclick="terminarTorneio()">
+                TERMINAR TORNEIO
+            </button>
+
+        </section>
+
+    </main>
+
+    <script src="js/auth.js"></script>
+
+    <script src="js/grupos.js"></script>
+
+    <script src="js/lutas.js"></script>
+
+    <script src="js/apostas.js"></script>
+
+    <script src="js/financeiro.js"></script>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
